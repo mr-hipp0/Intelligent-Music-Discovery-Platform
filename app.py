@@ -1,4 +1,5 @@
 import pickle
+import requests
 import streamlit as st
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
@@ -8,6 +9,16 @@ CLIENT_SECRET = "74c8ed47cb9d4274b75c9fb3aab851b0"
 
 client_credentials_manager = SpotifyClientCredentials(client_id=CLIENT_ID, client_secret=CLIENT_SECRET)
 sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
+
+def fetch_similarity_file(url):
+    response = requests.get(url)
+    with open("similarity.pkl", "wb") as f:
+        f.write(response.content)
+
+similarity_url = "https://drive.google.com/uc?export=download&id=1oglnO95R7p5uGZF_67j6_a7E7Kno7-3T"
+fetch_similarity_file(similarity_url)
+
+similarity = pickle.load(open("similarity.pkl", "rb"))
 
 def get_song_album_cover_url(song_name, artist_name):
     search_query = f"track:{song_name} artist:{artist_name}"
