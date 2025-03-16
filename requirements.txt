@@ -1,5 +1,6 @@
-streamlit
-pandas
-scikit-learn
-nltk
-Spotipy
+streamlit    
+pandas         
+scikit-learn    
+nltk           
+spotipy         
+pickle5 
