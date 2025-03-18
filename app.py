@@ -2,7 +2,14 @@ import pickle
 import streamlit as st
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
+import gdown
+import os
 
+
+output = "similarity.pkl"
+if not os.path.exists(output):
+    with st.spinner("Downloading necessary files..."):
+        gdown.download(f"https://drive.google.com/uc?id=1htY2HwMut80hhmvIj_9167mBJHDOCG2c", output, quiet=False)
 
 CLIENT_ID = "21f4e259bc174d8b9afa08d72bcda187"
 CLIENT_SECRET = "74c8ed47cb9d4274b75c9fb3aab851b0"
@@ -28,18 +35,20 @@ def recommend(song):
     recommended_music_names = []
     recommended_music_posters = []
     for i in distances[1:6]:
-        # fetch the movie poster
+        # fetch the song poster
         artist = music.iloc[i[0]].artist
         print(artist)
         print(music.iloc[i[0]].song)
         recommended_music_posters.append(get_song_album_cover_url(music.iloc[i[0]].song, artist))
         recommended_music_names.append(music.iloc[i[0]].song)
 
-    return recommended_music_names,recommended_music_posters
+    return recommended_music_names, recommended_music_posters
 
 st.header('Music Recommender System')
-music = pickle.load(open('df.pkl','rb'))
-similarity = pickle.load(open('similarity.pkl','rb'))
+
+# Load datasets
+music = pickle.load(open('df.pkl', 'rb'))
+similarity = pickle.load(open('similarity.pkl', 'rb'))
 
 music_list = music['song'].values
 selected_movie = st.selectbox(
@@ -48,15 +57,14 @@ selected_movie = st.selectbox(
 )
 
 if st.button('Show Recommendation'):
-    recommended_music_names,recommended_music_posters = recommend(selected_movie)
-    col1, col2, col3, col4, col5= st.columns(5)
+    recommended_music_names, recommended_music_posters = recommend(selected_movie)
+    col1, col2, col3, col4, col5 = st.columns(5)
     with col1:
         st.text(recommended_music_names[0])
         st.image(recommended_music_posters[0])
     with col2:
         st.text(recommended_music_names[1])
         st.image(recommended_music_posters[1])
-
     with col3:
         st.text(recommended_music_names[2])
         st.image(recommended_music_posters[2])
