@@ -9,7 +9,7 @@ import os
 output = "similarity.pkl"
 if not os.path.exists(output):
     with st.spinner("Downloading necessary files..."):
-        gdown.download(f"https://drive.google.com/uc?id=1htY2HwMut80hhmvIj_9167mBJHDOCG2c", output, quiet=False)
+        gdown.download(f"https://drive.google.com/uc?id=1F9uyZ1VYlHGTKOrEGY3mCwt8d3OGtotD", output, quiet=False)
 
 CLIENT_ID = "21f4e259bc174d8b9afa08d72bcda187"
 CLIENT_SECRET = "74c8ed47cb9d4274b75c9fb3aab851b0"
